@@ -11,8 +11,6 @@
 
 extern "C" {
 #include <tonc.h>
-
-extern const u32 sys8Glyphs[192];
 }
 
 namespace tty {
@@ -101,7 +99,9 @@ void decompress_1bpp_to_4bpp(
 void TtyMode::restore() {
 	this->in_focus = true;
 
-	decompress_1bpp_to_4bpp(CHARBLOCKS[BG0_TILE_SOURCE], sys8Glyphs, '~' - ' ');
+	decompress_1bpp_to_4bpp(
+		CHARBLOCKS[BG0_TILE_SOURCE], (const u32 *)sys8Glyphs, '~' - ' '
+	);
 
 	this->clear_screen();
 

@@ -30,7 +30,7 @@ BUILD        := build
 SOURCES      := src
 INCLUDES     := inc
 DATA         :=
-MUSIC        := audio
+MUSIC        :=
 GRAPHICS     := gfx
 
 #---------------------------------------------------------------------------------
@@ -39,7 +39,6 @@ GRAPHICS     := gfx
 ARCH := -mthumb -mthumb-interwork
 
 CFLAGS := -g -Og \
-	-fdebug-prefix-map=/srpg-engine=. \
 	-mcpu=arm7tdmi -mtune=arm7tdmi \
 	$(ARCH)
 

@@ -1,4 +1,3 @@
-#include "audio.h"
 #include "debug.h"
 #include "input.h"
 #include "interrupts.h"
@@ -10,59 +9,56 @@
 #include <span>
 
 namespace config {
-extern std::span<state::Mode *const> modes;
-extern u32 the_startup_song;
+extern std::span<state::Mode *const> MODES;
+extern u32 THE_STARTUP_SONG;
 } // namespace config
 
 namespace debug {
-extern tty::TtyMode tty_mode;
+extern tty::TtyMode TTY_MODE;
 }
 
 extern "C" [[noreturn]] void _exit(int) {
-	debug::tty_mode.restore();
-	debug::tty_mode.clear();
-	debug::tty_mode.println("Crashed!");
+	debug::TTY_MODE.restore();
+	debug::TTY_MODE.clear();
+	debug::TTY_MODE.println("Crashed!");
 
 	util::spin();
 }
 
 void initialise() {
 	interrupts::initialise();
-	audio::initialise();
 }
 
 int main() {
 	debug::println("Initialising...");
 
 	initialise();
-	audio::play_song(config::the_startup_song);
-	audio::set_bgm_volume(768);
 
 	state::next_state = 3;
 	state::current_state = state::next_state;
 
-	config::modes[state::current_state]->restore();
+	config::MODES[state::current_state]->restore();
 
 	for (;;) {
 		if (state::current_state != state::next_state) {
 			util::wait_for_vsync();
 			state::blacked_out = false;
-			if (config::modes[state::current_state]->blackout()
-				|| config::modes[state::next_state]->blackout())
+			if (config::MODES[state::current_state]->blackout()
+				|| config::MODES[state::next_state]->blackout())
 			{
 				state::blacked_out = true;
 				util::set_screen_to_black();
 			}
-			config::modes[state::current_state]->suspend();
+			config::MODES[state::current_state]->suspend();
 			state::last_state = state::current_state;
 			state::current_state = state::next_state;
 			util::wait_for_vsync();
-			config::modes[state::current_state]->restore();
+			config::MODES[state::current_state]->restore();
 		}
 
 		input::poll();
-		config::modes[state::current_state]->update();
-		for (auto mode : config::modes) {
+		config::MODES[state::current_state]->update();
+		for (auto mode : config::MODES) {
 			if (mode == nullptr) {
 				continue;
 			}
@@ -71,7 +67,7 @@ int main() {
 
 		perf::record_frame();
 		util::wait_for_vsync();
-		config::modes[state::current_state]->vsync_hook();
+		config::MODES[state::current_state]->vsync_hook();
 	}
 
 	util::spin();

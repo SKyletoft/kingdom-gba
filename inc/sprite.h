@@ -1,6 +1,5 @@
 #pragma once
 
-#include "hexes.h"
 #include "point.h"
 #include <cstddef>
 #include <span>
@@ -12,8 +11,6 @@ extern "C" {
 
 namespace sprite {
 
-using hexes::CubeCoord;
-using hexes::Direction;
 using point::Point;
 
 enum class ColourMode : u8 { BPP4 = 0, BPP8 = 1 };
@@ -29,18 +26,18 @@ enum class GraphicsMode : u8 {
 	Mask = 0b10,
 };
 enum class SpriteSize : u8 {
-	x8 = 0b0000,
-	x16 = 0b0001,
-	x32 = 0b0010,
-	x64 = 0b0011,
-	w16h8 = 0b0100,
-	w32h8 = 0b0101,
-	w32h16 = 0b0110,
-	w64h32 = 0b0111,
-	w8h16 = 0b1000,
-	w8h32 = 0b1001,
-	w16h32 = 0b1010,
-	w32h64 = 0b1011
+	X8 = 0b0000,
+	X16 = 0b0001,
+	X32 = 0b0010,
+	X64 = 0b0011,
+	W16h8 = 0b0100,
+	W32h8 = 0b0101,
+	W32h16 = 0b0110,
+	W64h32 = 0b0111,
+	W8h16 = 0b1000,
+	W8h32 = 0b1001,
+	W16h32 = 0b1010,
+	W32h64 = 0b1011
 };
 
 struct alignas(8) __attribute((packed)) HardwareSprite {
@@ -94,48 +91,6 @@ static constexpr HardwareSprite X32{
 static constexpr HardwareSprite X64{
 	.shape = 0b00,
 	.size = 0b11,
-};
-
-struct HexSprite {
-	CubeCoord pos{};
-	Point<s16> animation{};
-	Point<s16> centre{};
-	SpriteSize size = SpriteSize::x8;
-	u8 hardware_id = 0;
-	bool horizontal_flip = false;
-	bool vertical_flip = false;
-	u16 tile_index = 0;
-	u8 prio = 0;
-	u8 palette = 0;
-	ObjectMode object_mode = ObjectMode::Normal;
-	ColourMode colour_mode = ColourMode::BPP4;
-	bool hidden = false;
-
-	constexpr HexSprite &translate(Direction d) {
-		this->pos += d;
-		return *this;
-	}
-
-	constexpr HexSprite &translate(CubeCoord vec) {
-		this->pos += vec;
-		return *this;
-	}
-
-	constexpr HexSprite &move_to(Direction dir) {
-		return this->move_to(this->pos + dir);
-	}
-
-	constexpr HexSprite &move_to(CubeCoord vec) {
-		auto from = this->pos.to_pixel_space();
-		this->pos = vec;
-		auto to = this->pos.to_pixel_space();
-		this->animation += (from - to).into<s16>();
-		return *this;
-	}
-
-	void hide() const;
-	void move();
-	void render(Point<s16> const camera_offset) const;
 };
 
 // Due to fun literal language bugs, this is read only and you have to use the

@@ -5,7 +5,7 @@ setup-env:
 
 mgba:
 	make
-	mgba-qt srpg-engine.elf -4
+	mgba-qt kingdom-gba.elf -4
 
 clean:
 	-rm -rf libtonc maxmod
