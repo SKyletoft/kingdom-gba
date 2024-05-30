@@ -1,0 +1,12 @@
+out
+.vscode
+.idea
+*.o
+*.a
+*.elf
+*.gba
+*.sav
+.envrc
+libtonc
+maxmod
+build

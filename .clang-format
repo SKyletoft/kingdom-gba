@@ -1,0 +1,21 @@
+AlignAfterOpenBracket: BlockIndent
+BinPackArguments: false
+AllowShortBlocksOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+PackConstructorInitializers: Never
+BreakBeforeBinaryOperators: NonAssignment
+BreakConstructorInitializers: BeforeComma
+BreakInheritanceList: BeforeComma
+InsertBraces: true
+PointerAlignment: Right
+IndentCaseBlocks: false
+
+BreakBeforeBraces: Custom
+BraceWrapping: { AfterControlStatement: MultiLine }
+
+IndentWidth: '4'
+ContinuationIndentWidth: '4'
+TabWidth: '4'
+UseTab: ForContinuationAndIndentation
+UseCRLF: false
