@@ -11,7 +11,7 @@ include $(DEVKITARM)/gba_rules
 #---------------------------------------------------------------------------------
 # the LIBGBA path is defined in gba_rules, but we have to define LIBTONC ourselves
 #---------------------------------------------------------------------------------
-LIBTONC := $(DEVKITPRO)/libtonc
+LIBTONC := ../libtonc
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
@@ -27,11 +27,11 @@ LIBTONC := $(DEVKITPRO)/libtonc
 #---------------------------------------------------------------------------------
 TARGET       := $(notdir $(CURDIR))
 BUILD        := build
-SOURCES      := src demo/src
-INCLUDES     := inc demo/inc
+SOURCES      := src
+INCLUDES     := inc
 DATA         :=
-MUSIC        := audio demo/audio
-GRAPHICS     := demo/gfx
+MUSIC        := audio
+GRAPHICS     := gfx
 
 #---------------------------------------------------------------------------------
 # options for code generation
