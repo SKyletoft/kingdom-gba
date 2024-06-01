@@ -33,9 +33,9 @@ class Button {
 
 	constexpr operator size_t() const { return (size_t)this->button; }
 
-	Button(InternalButton const &from)
+	constexpr Button(InternalButton const &from)
 		: button(from) {}
-	Button() {}
+	constexpr Button() {}
 };
 
 class InputState {
