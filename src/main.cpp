@@ -34,30 +34,30 @@ int main() {
 
 	initialise();
 
-	state::next_state = 3;
-	state::current_state = state::next_state;
+	state::NEXT_STATE = 3;
+	state::CURRENT_STATE = state::NEXT_STATE;
 
-	config::MODES[state::current_state]->restore();
+	config::MODES[state::CURRENT_STATE]->restore();
 
 	for (;;) {
-		if (state::current_state != state::next_state) {
+		if (state::CURRENT_STATE != state::NEXT_STATE) {
 			util::wait_for_vsync();
-			state::blacked_out = false;
-			if (config::MODES[state::current_state]->blackout()
-				|| config::MODES[state::next_state]->blackout())
+			state::BLACKED_OUT = false;
+			if (config::MODES[state::CURRENT_STATE]->blackout()
+				|| config::MODES[state::NEXT_STATE]->blackout())
 			{
-				state::blacked_out = true;
+				state::BLACKED_OUT = true;
 				util::set_screen_to_black();
 			}
-			config::MODES[state::current_state]->suspend();
-			state::last_state = state::current_state;
-			state::current_state = state::next_state;
+			config::MODES[state::CURRENT_STATE]->suspend();
+			state::LAST_STATE = state::CURRENT_STATE;
+			state::CURRENT_STATE = state::NEXT_STATE;
 			util::wait_for_vsync();
-			config::MODES[state::current_state]->restore();
+			config::MODES[state::CURRENT_STATE]->restore();
 		}
 
 		input::poll();
-		config::MODES[state::current_state]->update();
+		config::MODES[state::CURRENT_STATE]->update();
 		for (auto mode : config::MODES) {
 			if (mode == nullptr) {
 				continue;
@@ -67,7 +67,7 @@ int main() {
 
 		perf::record_frame();
 		util::wait_for_vsync();
-		config::MODES[state::current_state]->vsync_hook();
+		config::MODES[state::CURRENT_STATE]->vsync_hook();
 	}
 
 	util::spin();

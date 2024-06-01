@@ -8,10 +8,10 @@ extern "C" {
 
 namespace state {
 
-extern size_t current_state;
-extern size_t next_state;
-extern size_t last_state;
-extern bool blacked_out;
+extern size_t CURRENT_STATE;
+extern size_t NEXT_STATE;
+extern size_t LAST_STATE;
+extern bool BLACKED_OUT;
 
 /// The mode baseclass is an abstraction to handle switching between game
 /// states.

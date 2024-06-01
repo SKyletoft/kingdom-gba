@@ -4,10 +4,10 @@
 
 namespace state {
 
-size_t current_state = 0;
-size_t next_state = 0;
-size_t last_state = 0;
-bool blacked_out = true;
+size_t CURRENT_STATE = 0;
+size_t NEXT_STATE = 0;
+size_t LAST_STATE = 0;
+bool BLACKED_OUT = true;
 
 bool Mode::blackout() { return true; }
 

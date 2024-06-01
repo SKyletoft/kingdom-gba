@@ -29,7 +29,7 @@ void TtyMode::update() {
 	if (input::get_button(Button::R).is_up()
 		|| input::get_button(Button::L).is_up())
 	{
-		state::next_state = 0;
+		state::NEXT_STATE = 0;
 	}
 
 	if (input::get_button(Button::Left).is_down()) {

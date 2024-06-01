@@ -26,7 +26,7 @@ bool InputState::operator==(InputState const &rhs) const {
 std::array<InputState, 10> BUTTON_STATES;
 
 void poll() {
-	Button const buttons[] = {
+	constexpr std::array<Button, 10> BUTTONS = {
 		Button::A,
 		Button::B,
 		Button::L,
@@ -41,7 +41,7 @@ void poll() {
 
 	u16 raw = REG_KEYINPUT;
 
-	for (auto button : buttons) {
+	for (auto button : BUTTONS) {
 		bool down = !(bool)(raw & (1 << button));
 		if (down) {
 			BUTTON_STATES[button] = BUTTON_STATES[button].is_down()

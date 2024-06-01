@@ -13,31 +13,31 @@ extern "C" {
 
 namespace perf {
 
-size_t vblank_count = 0;
-size_t main_loop_count = 0;
-u32 total_finish_line = 0;
-std::array<u32, 16> last_16_finishes = {
+size_t VBLANK_COUNT = 0;
+size_t MAIN_LOOP_COUNT = 0;
+u32 TOTAL_FINISH_LINE = 0;
+std::array<u32, 16> LAST_16_FINISHES = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 void record_frame() {
 	u16 scanline = REG_VCOUNT;
-	last_16_finishes[main_loop_count % 16] = scanline * 1024;
-	total_finish_line += scanline;
+	LAST_16_FINISHES[MAIN_LOOP_COUNT % 16] = scanline * 1024;
+	TOTAL_FINISH_LINE += scanline;
 
-	main_loop_count++;
+	MAIN_LOOP_COUNT++;
 }
 
 std::tuple<u32, u32> get_perf_data() {
-	u32 total = total_finish_line / main_loop_count;
+	u32 total = TOTAL_FINISH_LINE / MAIN_LOOP_COUNT;
 	u32 last_16 =
-		*std::ranges::fold_left_first(last_16_finishes, std::plus{}) / 16;
+		*std::ranges::fold_left_first(LAST_16_FINISHES, std::plus{}) / 16;
 
 	return std::tuple{total, last_16};
 }
 
-void count_frame() { vblank_count++; }
+void count_frame() { VBLANK_COUNT++; }
 
-size_t get_frame() { return vblank_count; }
+size_t get_frame() { return VBLANK_COUNT; }
 
 } // namespace perf
