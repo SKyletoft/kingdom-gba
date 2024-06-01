@@ -4,7 +4,7 @@ setup-env:
 	sed -i 's/\r//g' libtonc/include/*.h libtonc/src/*.c libtonc/src/tte/*.c maxmod/include/* maxmod/source/*
 
 mgba:
-	make
+	make -j
 	mgba-qt kingdom-gba.elf -4
 
 clean:
