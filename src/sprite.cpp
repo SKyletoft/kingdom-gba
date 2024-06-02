@@ -4,8 +4,9 @@
 
 namespace sprite {
 
-void HardwareSprite::write_to_screen(size_t hardware_sprite_id) {
+HardwareSprite& HardwareSprite::write_to_screen(size_t hardware_sprite_id) volatile {
 	((vu64 *)MEM_OAM)[hardware_sprite_id] = std::bit_cast<u64>(*this);
+	return (HardwareSprite&) *this;
 }
 
 void HardwareSprite::hide(size_t hardware_sprite_id) {

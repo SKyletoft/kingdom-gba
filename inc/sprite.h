@@ -64,7 +64,7 @@ struct alignas(8) __attribute((packed)) HardwareSprite {
 	// padding
 	u16 _pad1 = 0;
 
-	void write_to_screen(size_t hardware_sprite_id);
+	HardwareSprite &write_to_screen(size_t hardware_sprite_id) volatile;
 	static void hide(size_t hardware_sprite_id);
 
 	constexpr HardwareSprite &set_size(SpriteSize const new_size) {
