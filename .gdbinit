@@ -1,4 +1,4 @@
-file srpg-engine.elf
+file kingdom-gba.elf
 target extended-remote localhost:2345
 load
 b main
