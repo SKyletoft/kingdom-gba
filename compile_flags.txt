@@ -1,8 +1,7 @@
 -xc++
 -isystemlibtonc/include
 -isystemmaxmod/include
--Idemo/inc
--Iout
+-Ibuild
 -Iinc
 -Wall
 -Wexta
