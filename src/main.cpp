@@ -34,7 +34,7 @@ int main() {
 
 	initialise();
 
-	state::NEXT_STATE = 3;
+	state::NEXT_STATE = 0;
 	state::CURRENT_STATE = state::NEXT_STATE;
 
 	config::MODES[state::CURRENT_STATE]->restore();
