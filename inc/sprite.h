@@ -65,6 +65,10 @@ struct alignas(8) __attribute((packed)) HardwareSprite {
 	u16 _pad1 = 0;
 
 	HardwareSprite &write_to_screen(size_t hardware_sprite_id) volatile;
+	constexpr HardwareSprite &set_x(int x) {
+		this->x = u16(x & ((1 << 9) -1));
+		return *this;
+	}
 	static void hide(size_t hardware_sprite_id);
 
 	constexpr HardwareSprite &set_size(SpriteSize const new_size) {
