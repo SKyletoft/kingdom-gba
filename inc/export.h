@@ -7,5 +7,5 @@ extern "C" {
 }
 
 #define EXPORT(list, song)                                                     \
-	std::span<state::Mode *const> modes{list};                                 \
-	u32 the_startup_song = (u32)song;
+	std::span<state::Mode *const> MODES{list};                                 \
+	u32 THE_STARTUP_SONG = (u32)song;
