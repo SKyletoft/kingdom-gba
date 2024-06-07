@@ -13,6 +13,7 @@ extern "C" {
 }
 
 #define let auto const
+#define fn auto constexpr
 
 namespace game {
 
@@ -20,7 +21,18 @@ s32 constexpr PLAYER_WIDTH = 32;
 size_t constexpr PLAYER_SPRITE_OFFSET = 0;
 size_t constexpr GROUND_TILE_OFFSET = 1;
 
+fn load_background(Game &game, s32 world_x)->void {
+	size_t x = (size_t)(game.camera_position + world_x) / 8;
+	for (size_t y = 0; y < 160 / 8; y++) {
+		let pos = y * 32 + x;
+		tiles::SCREENBLOCKS[0][pos] = tiles::ScreenEntry{
+			u16(GROUND_TILE_OFFSET + size_t(world_x % 4)), 0, 0
+		};
+	}
+}
+
 void Game::update() {
+	let old_cam = this->camera_position;
 	if (input::get_button(input::Button::Left).is_down()) {
 		this->player_position -= 2;
 		this->player_facing_right = false;
@@ -42,6 +54,19 @@ void Game::update() {
 		if (pos_diff < PLAYER_WIDTH * 2) {
 			this->camera_position--;
 		}
+	}
+
+	switch (old_cam - this->camera_position) {
+	case -2:
+	case -1: {
+		load_background(*this, this->camera_position);
+	} break;
+	case 2:
+	case 1: {
+		load_background(*this, this->camera_position + SCREEN_WIDTH);
+	} break;
+	default:
+		break;
 	}
 }
 
