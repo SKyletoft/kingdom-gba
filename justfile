@@ -5,7 +5,7 @@ setup-env:
 
 mgba:
 	make -j
-	mgba-qt kingdom-gba.elf -4
+	mangohud mgba-qt kingdom-gba.elf -4
 
 clean:
 	-rm -rf libtonc maxmod
