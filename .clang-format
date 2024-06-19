@@ -14,6 +14,7 @@ IndentCaseBlocks: false
 BreakBeforeBraces: Custom
 BraceWrapping: { AfterControlStatement: MultiLine }
 
+AccessModifierOffset: -6
 IndentWidth: '8'
 ContinuationIndentWidth: '8'
 TabWidth: '8'
