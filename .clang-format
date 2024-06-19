@@ -14,8 +14,8 @@ IndentCaseBlocks: false
 BreakBeforeBraces: Custom
 BraceWrapping: { AfterControlStatement: MultiLine }
 
-IndentWidth: '4'
-ContinuationIndentWidth: '4'
-TabWidth: '4'
+IndentWidth: '8'
+ContinuationIndentWidth: '8'
+TabWidth: '8'
 UseTab: ForContinuationAndIndentation
 UseCRLF: false
