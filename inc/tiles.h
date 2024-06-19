@@ -17,13 +17,15 @@ class Colour {
 
 	static constexpr u16 MASK = 0b11111;
 	static constexpr u16 convert(u8 red, u8 green, u8 blue) {
-		auto const clamp = [](u8 x) { return std::clamp(x, (u8)0, (u8)31); };
+		auto const clamp = [](u8 x) {
+			return std::clamp(x, (u8)0, (u8)31);
+		};
 		red = clamp(red);
 		green = clamp(green);
 		blue = clamp(blue);
 
-		const u16 be =
-			(u16)(((blue & MASK) << 10) | ((green & MASK) << 5) | (red & MASK));
+		const u16 be = (u16)(((blue & MASK) << 10)
+				     | ((green & MASK) << 5) | (red & MASK));
 
 		return be;
 	};
@@ -37,22 +39,23 @@ class Colour {
   public:
 	consteval static Colour from_24bit_colour(u8 red, u8 green, u8 blue) {
 		auto const lerp = [](u8 x) {
-			return (u8)std::round(std::lerp(0, 31, (double)x / 255.0));
+			return (u8
+			)std::round(std::lerp(0, 31, (double)x / 255.0));
 		};
 		return Colour(lerp(red), lerp(green), lerp(blue));
 	}
 
 	constexpr Colour(u8 red, u8 green, u8 blue)
-		: data(convert(red, green, blue)) {}
+	    : data(convert(red, green, blue)) {}
 
 	constexpr Colour(RGB rgb)
-		: Colour(rgb.red, rgb.green, rgb.blue) {}
+	    : Colour(rgb.red, rgb.green, rgb.blue) {}
 
 	constexpr Colour(u16 raw)
-		: data(raw) {}
+	    : data(raw) {}
 
 	constexpr Colour()
-		: data(0) {}
+	    : data(0) {}
 
 	constexpr u16 raw() { return this->data; }
 	constexpr RGB rgb() {
@@ -147,11 +150,13 @@ union ScreenEntry {
 		this->palette = (u8)(palette & 0b1111);
 	}
 	constexpr ScreenEntry(const ScreenEntry &rhs)
-		: raw(rhs.raw) {}
+	    : raw(rhs.raw) {}
 	constexpr ScreenEntry(volatile ScreenEntry &rhs)
-		: raw(rhs.raw) {}
+	    : raw(rhs.raw) {}
 	constexpr ScreenEntry(const u16 &rhs)
-		: raw(rhs) {}
+	    : raw(rhs) {}
+	constexpr ScreenEntry()
+	    : raw(0) {}
 
 	constexpr operator u16() const { return this->raw; }
 	constexpr operator u16() { return this->raw; }
@@ -159,8 +164,14 @@ union ScreenEntry {
 	constexpr void operator=(const ScreenEntry &rhs) volatile {
 		this->raw = rhs.raw;
 	}
-	constexpr void operator=(const ScreenEntry &rhs) { this->raw = rhs.raw; }
-	constexpr void operator=(volatile ScreenEntry &rhs) { this->raw = rhs.raw; }
+	constexpr ScreenEntry &operator=(const ScreenEntry &rhs) {
+		this->raw = rhs.raw;
+		return *this;
+	}
+	constexpr ScreenEntry &operator=(volatile ScreenEntry &rhs) {
+		this->raw = rhs.raw;
+		return *this;
+	}
 
 	constexpr ScreenEntry with_palette(u8 new_pal) {
 		ScreenEntry copy{this->raw};
