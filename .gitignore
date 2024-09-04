@@ -10,3 +10,4 @@ out
 libtonc
 maxmod
 build
+**/.dir-locals.el
