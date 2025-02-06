@@ -1,0 +1,22 @@
+[package]
+name = "kingdom-gba"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+gba = "0.14"
+bytemuck = "1.17" # Keep in sync with gba
+
+[build-dependencies]
+anyhow = "1.0"
+cc = "1.0"
+
+[profile.release]
+opt-level = "s"
+strip = true
+lto = "fat"
+
+[profile.dev]
+opt-level = 0

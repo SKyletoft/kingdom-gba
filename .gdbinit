@@ -1,13 +1,13 @@
-file kingdom-gba.elf
+file target/thumbv4t-none-eabi/debug/kingdom-gba
 target extended-remote localhost:2345
 load
 b main
 b _exit
-layout split
+# layout split
 
-define hook-step
-	p *(volatile short int)0x04000006
-end
-define hook-next
-	p *(volatile short int)0x04000006
-end
+# define hook-step
+#	p *(volatile short int)0x04000006
+# end
+# define hook-next
+#	p *(volatile short int)0x04000006
+# end
