@@ -44,11 +44,26 @@ extern "C" fn main() -> ! {
 	restore();
 
 	loop {
+		render();
 		VBlankIntrWait();
 	}
 }
 
+fn render() {
+	let mut sprite = ObjAttr::new();
+	sprite.set_y(70);
+	sprite.set_x(0);
+	sprite.set_tile_id(0);
+	sprite.set_style(ObjDisplayStyle::Normal);
+	// sprite.0.with_shape(ObjShape::)
+	sprite.1 = sprite.1.with_size(2); // 32x32
+
+	OBJ_ATTR_ALL.index(0).write(sprite);
+}
+
 fn restore() {
+	// Display settings
+
 	const BACKGROUND: BackgroundControl = BackgroundControl::new()
 		.with_bpp8(false)
 		.with_charblock(3)
@@ -64,15 +79,11 @@ fn restore() {
 	BG0CNT.write(BACKGROUND);
 	DISPCNT.write(DISPLAY);
 
+	// Load player sprite
+
 	let tiles: &[Tile4; 16] = &KING_2_TILES;
-	let palette: &[Color] = {
-		assert_eq!(size_of::<Color>(), size_of::<u16>());
-		assert_eq!(align_of::<Color>(), align_of::<u16>());
-		Color::wrap_slice(&KING_2_PAL)
-	};
-	if let Ok(mut logger) = MgbaBufferedLogger::try_new(MgbaMessageLevel::Debug) {
-		writeln!(logger, "{:?}", tiles as *const _).ok();
-	}
+	let palette: &[Color] = Color::wrap_slice(&KING_2_PAL);
+
 	OBJ_TILES
 		.as_region()
 		.sub_slice(0..tiles.len())
@@ -81,14 +92,4 @@ fn restore() {
 		.as_region()
 		.sub_slice(0..palette.len())
 		.write_from_slice(palette);
-
-	let mut sprite = ObjAttr::new();
-	sprite.set_y(70);
-	sprite.set_x(0);
-	sprite.set_tile_id(0);
-	sprite.set_style(ObjDisplayStyle::Normal);
-	// sprite.0.with_shape(ObjShape::)
-	sprite.1 = sprite.1.with_size(2); // 32x32
-
-	OBJ_ATTR_ALL.index(0).write(sprite);
 }
